@@ -2,14 +2,12 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_ZMQ_ZMQABSTRACTNOTIFIER_H
-#define BITCOIN_ZMQ_ZMQABSTRACTNOTIFIER_H
+#ifndef HRGOLD_ZMQ_ZMQABSTRACTNOTIFIER_H
+#define HRGOLD_ZMQ_ZMQABSTRACTNOTIFIER_H
 
 #include "zmqconfig.h"
 
 class CBlockIndex;
-class CGovernanceObject;
-class CGovernanceVote;
 class CZMQAbstractNotifier;
 
 typedef CZMQAbstractNotifier* (*CZMQNotifierFactory)();
@@ -37,10 +35,6 @@ public:
     virtual bool NotifyBlock(const CBlockIndex *pindex);
     virtual bool NotifyTransaction(const CTransaction &transaction);
     virtual bool NotifyTransactionLock(const CTransaction &transaction);
-    virtual bool NotifyGovernanceVote(const CGovernanceVote &vote);
-    virtual bool NotifyGovernanceObject(const CGovernanceObject &object);
-    virtual bool NotifyInstantSendDoubleSpendAttempt(const CTransaction &currentTx, const CTransaction &previousTx);
-
 
 protected:
     void *psocket;
@@ -48,4 +42,4 @@ protected:
     std::string address;
 };
 
-#endif // BITCOIN_ZMQ_ZMQABSTRACTNOTIFIER_H
+#endif // HRGOLD_ZMQ_ZMQABSTRACTNOTIFIER_H

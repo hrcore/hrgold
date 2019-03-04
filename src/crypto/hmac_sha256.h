@@ -1,16 +1,17 @@
-// Copyright (c) 2014 The Bitcoin Core developers
+// Copyright (c) 2017 The STRAKS developers
+// Copyright (c) 2017-2018 The Raidencash Developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_CRYPTO_HMAC_SHA256_H
-#define BITCOIN_CRYPTO_HMAC_SHA256_H
+#ifndef HRGOLD_CRYPTO_HMAC_SHA256_H
+#define HRGOLD_CRYPTO_HMAC_SHA256_H
 
 #include "crypto/sha256.h"
 
 #include <stdint.h>
 #include <stdlib.h>
 
-/** A hasher class for HMAC-SHA-256. */
+/** A hasher class for HMAC-SHA-512. */
 class CHMAC_SHA256
 {
 private:
@@ -29,4 +30,4 @@ public:
     void Finalize(unsigned char hash[OUTPUT_SIZE]);
 };
 
-#endif // BITCOIN_CRYPTO_HMAC_SHA256_H
+#endif // HRGOLD_CRYPTO_HMAC_SHA256_H

@@ -6,13 +6,13 @@ reset-files.bash
 *.tar.gz
 
 *.exe
-src/dash
-src/dashd
-src/dash-cli
-src/dash-tx
-src/test/test_dash
-src/qt/test/test_dash-qt
-src/bench/bench_dash
+src/hrgold
+src/hrgoldd
+src/hrgold-cli
+src/hrgold-tx
+src/test/test_hrgold
+src/qt/test/test_hrgold-qt
+src/bench/bench_hrgold
 
 # autoreconf
 Makefile.in
@@ -35,8 +35,8 @@ config.log
 config.status
 configure
 libtool
-src/config/dash-config.h
-src/config/dash-config.h.in
+src/config/hrgold-config.h
+src/config/hrgold-config.h.in
 src/config/stamp-h1
 share/setup.nsi
 share/qt/Info.plist
@@ -62,7 +62,6 @@ libconftest.dylib*
 *.o
 *.o-*
 *.patch
-!depends/patches/*/*.patch
 *.a
 *.pb.cc
 *.pb.h
@@ -81,12 +80,12 @@ libconftest.dylib*
 # Compilation and Qt preprocessor part
 *.qm
 Makefile
-dash-qt
-Dash-Qt.app
+hrgold-qt
+HrGold-Qt.app
 
 # Unit-tests
 Makefile.test
-dash-qt_test
+hrgold-qt_test
 src/test/buildenv.py
 
 # Resources cpp
@@ -100,7 +99,7 @@ build
 *.gcno
 *.gcda
 /*.info
-test_dash.coverage/
+test_hrgold.coverage/
 total.coverage/
 coverage_percent.txt
 
@@ -118,15 +117,15 @@ qa/cache/*
 .autotools
 /doc/doxygen/
 
-libdashconsensus.pc
+libhrgoldconsensus.pc
 contrib/devtools/split-debug.sh
-src/qt/dash-qt.bash
+src/qt/hrgold-qt.bash
 qa/pull-tester/tests-config.sh
 
 #development symlinks
-dash-cli
-dashd
-dash-qt
+hrgold-cli
+hrgoldd
+hrgold-qt
 make
 
 /docker/bin

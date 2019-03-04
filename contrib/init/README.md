@@ -1,11 +1,11 @@
 Sample configuration files for:
 
-SystemD: dashd.service
-Upstart: dashd.conf
-OpenRC:  dashd.openrc
-         dashd.openrcconf
-CentOS:  dashd.init
-OS X:    org.dash.dashd.plist
+SystemD: hrgoldd.service
+Upstart: hrgoldd.conf
+OpenRC:  hrgoldd.openrc
+         hrgoldd.openrcconf
+CentOS:  hrgoldd.init
+OS X:    org.hrgold.hrgoldd.plist
 
 have been made available to assist packagers in creating node packages here.
 

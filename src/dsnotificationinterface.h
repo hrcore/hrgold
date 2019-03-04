@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_DSNOTIFICATIONINTERFACE_H
-#define BITCOIN_DSNOTIFICATIONINTERFACE_H
+#ifndef HRGOLD_DSNOTIFICATIONINTERFACE_H
+#define HRGOLD_DSNOTIFICATIONINTERFACE_H
 
 #include "validationinterface.h"
 
@@ -27,4 +27,4 @@ private:
     CConnman& connman;
 };
 
-#endif // BITCOIN_DSNOTIFICATIONINTERFACE_H
+#endif // HRGOLD_DSNOTIFICATIONINTERFACE_H

@@ -1,6 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2015 The Bitcoin Core developers
-// Copyright (c) 2014-2017 The Dash Core developers
+// Copyright (c) 2014-2017 The HrGold Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -8,11 +8,11 @@
  * Server/client environment: argument handling, config file parsing,
  * logging, thread wrappers
  */
-#ifndef BITCOIN_UTIL_H
-#define BITCOIN_UTIL_H
+#ifndef HRGOLD_UTIL_H
+#define HRGOLD_UTIL_H
 
 #if defined(HAVE_CONFIG_H)
-#include "config/dash-config.h"
+#include "config/hrgold-config.h"
 #endif
 
 #include "compat.h"
@@ -35,14 +35,14 @@
 
 // Uncomment the following line to enable debugging messages
 // or enable on a per file basis prior to inclusion of util.h
-//#define ENABLE_DASH_DEBUG
-#ifdef ENABLE_DASH_DEBUG
+//#define ENABLE_HRGOLD_DEBUG
+#ifdef ENABLE_HRGOLD_DEBUG
 #define DBG( x ) x
 #else
 #define DBG( x ) 
 #endif
 
-//Dash only features
+//HrGold only features
 
 extern bool fMasternodeMode;
 extern bool fLiteMode;
@@ -73,8 +73,8 @@ extern bool fLogIPs;
 extern std::atomic<bool> fReopenDebugLog;
 extern CTranslationInterface translationInterface;
 
-extern const char * const BITCOIN_CONF_FILENAME;
-extern const char * const BITCOIN_PID_FILENAME;
+extern const char * const HRGOLD_CONF_FILENAME;
+extern const char * const HRGOLD_PID_FILENAME;
 
 /**
  * Translation function: Call Translate signal on UI interface, which returns a boost::optional result.
@@ -94,33 +94,20 @@ bool LogAcceptCategory(const char* category);
 /** Send a string to the log output */
 int LogPrintStr(const std::string &str);
 
-/** Formats a string without throwing exceptions. Instead, it'll return an error string instead of formatted string. */
-template<typename... Args>
-std::string SafeStringFormat(const std::string& fmt, const Args&... args)
-{
-    try {
-        return tinyformat::format(fmt, args...);
-    } catch (std::runtime_error& e) {
-        std::string message = tinyformat::format("\n****TINYFORMAT ERROR****\n    err=\"%s\"\n    fmt=\"%s\"\n", e.what(), fmt);
-        fprintf(stderr, "%s", message.c_str());
-        return message;
-    }
-}
-
 #define LogPrint(category, ...) do { \
     if (LogAcceptCategory((category))) { \
-        LogPrintStr(SafeStringFormat(__VA_ARGS__)); \
+        LogPrintStr(tinyformat::format(__VA_ARGS__)); \
     } \
 } while(0)
 
 #define LogPrintf(...) do { \
-    LogPrintStr(SafeStringFormat(__VA_ARGS__)); \
+    LogPrintStr(tinyformat::format(__VA_ARGS__)); \
 } while(0)
 
 template<typename... Args>
 bool error(const char* fmt, const Args&... args)
 {
-    LogPrintStr("ERROR: " + SafeStringFormat(fmt, args...) + "\n");
+    LogPrintStr("ERROR: " + tinyformat::format(fmt, args...) + "\n");
     return false;
 }
 
@@ -244,17 +231,12 @@ int GetNumCores();
 void RenameThread(const char* name);
 std::string GetThreadName();
 
-namespace ctpl {
-    class thread_pool;
-}
-void RenameThreadPool(ctpl::thread_pool& tp, const char* baseName);
-
 /**
  * .. and a wrapper that just calls func once
  */
 template <typename Callable> void TraceThread(const char* name,  Callable func)
 {
-    std::string s = strprintf("dash-%s", name);
+    std::string s = strprintf("hrgold-%s", name);
     RenameThread(s.c_str());
     try
     {
@@ -307,4 +289,4 @@ std::string IntVersionToString(uint32_t nVersion);
 std::string SafeIntVersionToString(uint32_t nVersion);
 
 
-#endif // BITCOIN_UTIL_H
+#endif // HRGOLD_UTIL_H

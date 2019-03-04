@@ -1,16 +1,16 @@
 ---
-name: "dash-dmg-signer"
+name: "hrgold-dmg-signer"
 suites:
-- "bionic"
+- "trusty"
 architectures:
 - "amd64"
 packages:
 - "faketime"
 remotes:
-- "url": "https://github.com/dashpay/dash-detached-sigs.git"
+- "url": "https://github.com/hrgoldpay/hrgold-detached-sigs.git"
   "dir": "signature"
 files:
-- "dashcore-osx-unsigned.tar.gz"
+- "hrgoldcore-osx-unsigned.tar.gz"
 script: |
   WRAP_DIR=$HOME/wrapped
   mkdir -p ${WRAP_DIR}
@@ -27,8 +27,8 @@ script: |
     chmod +x ${WRAP_DIR}/${prog}
   done
 
-  UNSIGNED=dashcore-osx-unsigned.tar.gz
-  SIGNED=dashcore-osx-signed.dmg
+  UNSIGNED=hrgoldcore-osx-unsigned.tar.gz
+  SIGNED=hrgoldcore-osx-signed.dmg
 
   tar -xf ${UNSIGNED}
   OSX_VOLNAME="$(cat osx_volname)"

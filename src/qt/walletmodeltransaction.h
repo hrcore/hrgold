@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_QT_WALLETMODELTRANSACTION_H
-#define BITCOIN_QT_WALLETMODELTRANSACTION_H
+#ifndef HRGOLD_QT_WALLETMODELTRANSACTION_H
+#define HRGOLD_QT_WALLETMODELTRANSACTION_H
 
 #include "walletmodel.h"
 
@@ -35,7 +35,7 @@ public:
     void newPossibleKeyChange(CWallet *wallet);
     CReserveKey *getPossibleKeyChange();
 
-    void reassignAmounts(); // needed for the subtract-fee-from-amount feature
+    void reassignAmounts(int nChangePosRet); // needed for the subtract-fee-from-amount feature
 
 private:
     QList<SendCoinsRecipient> recipients;
@@ -44,4 +44,4 @@ private:
     CAmount fee;
 };
 
-#endif // BITCOIN_QT_WALLETMODELTRANSACTION_H
+#endif // HRGOLD_QT_WALLETMODELTRANSACTION_H

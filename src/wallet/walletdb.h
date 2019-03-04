@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_WALLET_WALLETDB_H
-#define BITCOIN_WALLET_WALLETDB_H
+#ifndef HRGOLD_WALLET_WALLETDB_H
+#define HRGOLD_WALLET_WALLETDB_H
 
 #include "amount.h"
 #include "wallet/db.h"
@@ -148,4 +148,4 @@ private:
 
 void ThreadFlushWalletDB();
 
-#endif // BITCOIN_WALLET_WALLETDB_H
+#endif // HRGOLD_WALLET_WALLETDB_H

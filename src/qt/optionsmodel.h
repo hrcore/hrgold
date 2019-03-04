@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_QT_OPTIONSMODEL_H
-#define BITCOIN_QT_OPTIONSMODEL_H
+#ifndef HRGOLD_QT_OPTIONSMODEL_H
+#define HRGOLD_QT_OPTIONSMODEL_H
 
 #include "amount.h"
 
@@ -49,7 +49,6 @@ public:
         SpendZeroConfChange,    // bool
         ShowMasternodesTab,     // bool
         ShowAdvancedPSUI,       // bool
-        ShowPrivateSendPopups,  // bool
         LowKeysWarning,         // bool
         PrivateSendRounds,      // int
         PrivateSendAmount,      // int
@@ -110,4 +109,4 @@ Q_SIGNALS:
     void hideTrayIconChanged(bool);
 };
 
-#endif // BITCOIN_QT_OPTIONSMODEL_H
+#endif // HRGOLD_QT_OPTIONSMODEL_H

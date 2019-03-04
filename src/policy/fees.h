@@ -2,8 +2,8 @@
 // Copyright (c) 2009-2015 The Bitcoin Core developers
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
-#ifndef BITCOIN_POLICYESTIMATOR_H
-#define BITCOIN_POLICYESTIMATOR_H
+#ifndef HRGOLD_POLICYESTIMATOR_H
+#define HRGOLD_POLICYESTIMATOR_H
 
 #include "amount.h"
 #include "uint256.h"
@@ -262,4 +262,4 @@ private:
     unsigned int trackedTxs;
     unsigned int untrackedTxs;
 };
-#endif /*BITCOIN_POLICYESTIMATOR_H */
+#endif /*HRGOLD_POLICYESTIMATOR_H */

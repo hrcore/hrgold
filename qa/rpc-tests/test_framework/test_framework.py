@@ -12,17 +12,13 @@ import sys
 import shutil
 import tempfile
 import traceback
-from time import time, sleep
 
 from .util import (
     initialize_chain,
-    start_node,
     start_nodes,
     connect_nodes_bi,
-    connect_nodes,
     sync_blocks,
     sync_mempools,
-    sync_masternodes,
     stop_nodes,
     stop_node,
     enable_coverage,
@@ -31,11 +27,7 @@ from .util import (
     PortSeed,
     set_cache_mocktime,
     set_genesis_mocktime,
-    get_mocktime,
-    set_mocktime,
-    set_node_times,
-    p2p_port,
-    satoshi_round
+    get_mocktime
 )
 from .authproxy import JSONRPCException
 
@@ -117,11 +109,11 @@ class BitcoinTestFramework(object):
 
         parser = optparse.OptionParser(usage="%prog [options]")
         parser.add_option("--nocleanup", dest="nocleanup", default=False, action="store_true",
-                          help="Leave dashds and test.* datadir on exit or error")
+                          help="Leave hrgoldds and test.* datadir on exit or error")
         parser.add_option("--noshutdown", dest="noshutdown", default=False, action="store_true",
-                          help="Don't stop dashds after the test execution")
+                          help="Don't stop hrgoldds after the test execution")
         parser.add_option("--srcdir", dest="srcdir", default=os.path.normpath(os.path.dirname(os.path.realpath(__file__))+"/../../../src"),
-                          help="Source directory containing dashd/dash-cli (default: %default)")
+                          help="Source directory containing hrgoldd/hrgold-cli (default: %default)")
         parser.add_option("--cachedir", dest="cachedir", default=os.path.normpath(os.path.dirname(os.path.realpath(__file__))+"/../../cache"),
                           help="Directory for caching pregenerated datadirs")
         parser.add_option("--tmpdir", dest="tmpdir", default=tempfile.mkdtemp(prefix="test"),
@@ -176,7 +168,7 @@ class BitcoinTestFramework(object):
             print("Stopping nodes")
             stop_nodes(self.nodes)
         else:
-            print("Note: dashds were not stopped and may still be running")
+            print("Note: hrgoldds were not stopped and may still be running")
 
         if not self.options.nocleanup and not self.options.noshutdown and success:
             print("Cleaning up")
@@ -203,173 +195,6 @@ class BitcoinTestFramework(object):
             sys.exit(1)
 
 
-MASTERNODE_COLLATERAL = 1000
-
-
-class MasternodeInfo:
-    def __init__(self, key, blsKey, collateral_id, collateral_out):
-        self.key = key
-        self.blsKey = blsKey
-        self.collateral_id = collateral_id
-        self.collateral_out = collateral_out
-
-
-class DashTestFramework(BitcoinTestFramework):
-    def __init__(self, num_nodes, masterodes_count, extra_args):
-        super().__init__()
-        self.mn_count = masterodes_count
-        self.num_nodes = num_nodes
-        self.mninfo = []
-        self.setup_clean_chain = True
-        self.is_network_split = False
-        # additional args
-        self.extra_args = extra_args
-
-    def create_simple_node(self):
-        idx = len(self.nodes)
-        args = self.extra_args
-        self.nodes.append(start_node(idx, self.options.tmpdir,
-                                     args))
-        for i in range(0, idx):
-            connect_nodes(self.nodes[i], idx)
-
-    def get_mnconf_file(self):
-        return os.path.join(self.options.tmpdir, "node0/regtest/masternode.conf")
-
-    def prepare_masternodes(self):
-        for idx in range(0, self.mn_count):
-            key = self.nodes[0].masternode("genkey")
-            blsKey = self.nodes[0].bls('generate')['secret']
-            address = self.nodes[0].getnewaddress()
-            txid = self.nodes[0].sendtoaddress(address, MASTERNODE_COLLATERAL)
-            txrow = self.nodes[0].getrawtransaction(txid, True)
-            collateral_vout = 0
-            for vout_idx in range(0, len(txrow["vout"])):
-                vout = txrow["vout"][vout_idx]
-                if vout["value"] == MASTERNODE_COLLATERAL:
-                    collateral_vout = vout_idx
-            self.nodes[0].lockunspent(False,
-                                      [{"txid": txid, "vout": collateral_vout}])
-            self.mninfo.append(MasternodeInfo(key, blsKey, txid, collateral_vout))
-
-    def write_mn_config(self):
-        conf = self.get_mnconf_file()
-        f = open(conf, 'a')
-        for idx in range(0, self.mn_count):
-            f.write("mn%d 127.0.0.1:%d %s %s %d\n" % (idx + 1, p2p_port(idx + 1),
-                                                      self.mninfo[idx].key,
-                                                      self.mninfo[idx].collateral_id,
-                                                      self.mninfo[idx].collateral_out))
-        f.close()
-
-    def create_masternodes(self):
-        for idx in range(0, self.mn_count):
-            args = ['-externalip=127.0.0.1', '-masternode=1',
-                    '-masternodeprivkey=%s' % self.mninfo[idx].key,
-                    '-masternodeblsprivkey=%s' % self.mninfo[idx].blsKey] + self.extra_args
-            self.nodes.append(start_node(idx + 1, self.options.tmpdir, args))
-            for i in range(0, idx + 1):
-                connect_nodes(self.nodes[i], idx + 1)
-
-    def setup_network(self):
-        self.nodes = []
-        # create faucet node for collateral and transactions
-        args = self.extra_args
-        self.nodes.append(start_node(0, self.options.tmpdir, args))
-        required_balance = MASTERNODE_COLLATERAL * self.mn_count + 1
-        while self.nodes[0].getbalance() < required_balance:
-            set_mocktime(get_mocktime() + 1)
-            set_node_times(self.nodes, get_mocktime())
-            self.nodes[0].generate(1)
-        # create masternodes
-        self.prepare_masternodes()
-        self.write_mn_config()
-        stop_node(self.nodes[0], 0)
-        args = ["-sporkkey=cP4EKFyJsHT39LDqgdcB43Y3YXjNyjb5Fuas1GQSeAtjnZWmZEQK"] + \
-               self.extra_args
-        self.nodes[0] = start_node(0, self.options.tmpdir,
-                                   args)
-        self.create_masternodes()
-        # create connected simple nodes
-        for i in range(0, self.num_nodes - self.mn_count - 1):
-            self.create_simple_node()
-        set_mocktime(get_mocktime() + 1)
-        set_node_times(self.nodes, get_mocktime())
-        self.nodes[0].generate(1)
-        # sync nodes
-        self.sync_all()
-        set_mocktime(get_mocktime() + 1)
-        set_node_times(self.nodes, get_mocktime())
-        sync_masternodes(self.nodes, True)
-        for i in range(1, self.mn_count + 1):
-            res = self.nodes[0].masternode("start-alias", "mn%d" % i)
-            assert (res["result"] == 'successful')
-        mn_info = self.nodes[0].masternodelist("status")
-        assert (len(mn_info) == self.mn_count)
-        for status in mn_info.values():
-            assert (status == 'ENABLED')
-
-    def enforce_masternode_payments(self):
-        self.nodes[0].spork('SPORK_8_MASTERNODE_PAYMENT_ENFORCEMENT', 0)
-
-    def create_raw_trx(self, node_from, node_to, amount, min_inputs, max_inputs):
-        assert (min_inputs <= max_inputs)
-        # fill inputs
-        inputs = []
-        balances = node_from.listunspent()
-        in_amount = 0.0
-        last_amount = 0.0
-        for tx in balances:
-            if len(inputs) < min_inputs:
-                input = {}
-                input["txid"] = tx['txid']
-                input['vout'] = tx['vout']
-                in_amount += float(tx['amount'])
-                inputs.append(input)
-            elif in_amount > amount:
-                break
-            elif len(inputs) < max_inputs:
-                input = {}
-                input["txid"] = tx['txid']
-                input['vout'] = tx['vout']
-                in_amount += float(tx['amount'])
-                inputs.append(input)
-            else:
-                input = {}
-                input["txid"] = tx['txid']
-                input['vout'] = tx['vout']
-                in_amount -= last_amount
-                in_amount += float(tx['amount'])
-                inputs[-1] = input
-            last_amount = float(tx['amount'])
-
-        assert (len(inputs) > 0)
-        assert (in_amount > amount)
-        # fill outputs
-        receiver_address = node_to.getnewaddress()
-        change_address = node_from.getnewaddress()
-        fee = 0.001
-        outputs = {}
-        outputs[receiver_address] = satoshi_round(amount)
-        outputs[change_address] = satoshi_round(in_amount - amount - fee)
-        rawtx = node_from.createrawtransaction(inputs, outputs)
-        return node_from.signrawtransaction(rawtx)
-
-    def wait_for_instantlock(self, txid, node):
-        # wait for instantsend locks
-        start = time()
-        locked = False
-        while True:
-            is_trx = node.gettransaction(txid)
-            if is_trx['instantlock']:
-                locked = True
-                break
-            if time() > start + 10:
-                break
-            sleep(0.1)
-        return locked
-
-
 # Test framework for doing p2p comparison testing, which sets up some bitcoind
 # binaries:
 # 1 binary: test binary
@@ -385,10 +210,10 @@ class ComparisonTestFramework(BitcoinTestFramework):
 
     def add_options(self, parser):
         parser.add_option("--testbinary", dest="testbinary",
-                          default=os.getenv("DASHD", "dashd"),
+                          default=os.getenv("HRGD", "hrgoldd"),
                           help="bitcoind binary to test")
         parser.add_option("--refbinary", dest="refbinary",
-                          default=os.getenv("DASHD", "dashd"),
+                          default=os.getenv("HRGD", "hrgoldd"),
                           help="bitcoind binary to use for reference nodes (if any)")
 
     def setup_network(self):

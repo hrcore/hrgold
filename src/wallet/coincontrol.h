@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_WALLET_COINCONTROL_H
-#define BITCOIN_WALLET_COINCONTROL_H
+#ifndef HRGOLD_WALLET_COINCONTROL_H
+#define HRGOLD_WALLET_COINCONTROL_H
 
 #include "primitives/transaction.h"
 
@@ -14,10 +14,8 @@ public:
     CTxDestination destChange;
     bool fUsePrivateSend;
     bool fUseInstantSend;
-    //! If false, allows unselected inputs, but requires all selected inputs be used if fAllowOtherInputs is true (default)
+    //! If false, allows unselected inputs, but requires all selected inputs be used
     bool fAllowOtherInputs;
-    //! If false, only include as many inputs as necessary to fulfill a coin selection request. Only usable together with fAllowOtherInputs
-    bool fRequireAllInputs;
     //! Includes watch only addresses which match the ISMINE_WATCH_SOLVABLE criteria
     bool fAllowWatchOnly;
     //! Minimum absolute fee (not per kilobyte)
@@ -38,7 +36,6 @@ public:
     {
         destChange = CNoDestination();
         fAllowOtherInputs = false;
-        fRequireAllInputs = true;
         fAllowWatchOnly = false;
         setSelected.clear();
         fUseInstantSend = false;
@@ -83,4 +80,4 @@ private:
     std::set<COutPoint> setSelected;
 };
 
-#endif // BITCOIN_WALLET_COINCONTROL_H
+#endif // HRGOLD_WALLET_COINCONTROL_H

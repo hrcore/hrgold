@@ -1,6 +1,6 @@
 FROM debian:stretch
-LABEL maintainer="Dash Developers <dev@dash.org>"
-LABEL description="Dockerised DashCore, built from Travis"
+LABEL maintainer="HrGold Developers <dev@hrgold.org>"
+LABEL description="Dockerised HrGoldCore, built from Travis"
 
 RUN apt-get update && apt-get -y upgrade && apt-get clean && rm -fr /var/cache/apt/*
 

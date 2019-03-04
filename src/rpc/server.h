@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_RPCSERVER_H
-#define BITCOIN_RPCSERVER_H
+#ifndef HRGOLD_RPCSERVER_H
+#define HRGOLD_RPCSERVER_H
 
 #include "amount.h"
 #include "rpc/protocol.h"
@@ -143,7 +143,7 @@ public:
 };
 
 /**
- * Dash RPC command dispatcher.
+ * HrGold RPC command dispatcher.
  */
 class CRPCTable
 {
@@ -152,7 +152,7 @@ private:
 public:
     CRPCTable();
     const CRPCCommand* operator[](const std::string& name) const;
-    std::string help(const std::string& strCommand, const std::string& strSubCommand) const;
+    std::string help(const std::string& name) const;
 
     /**
      * Execute a method.
@@ -187,11 +187,6 @@ extern uint256 ParseHashO(const UniValue& o, std::string strKey);
 extern std::vector<unsigned char> ParseHexV(const UniValue& v, std::string strName);
 extern std::vector<unsigned char> ParseHexO(const UniValue& o, std::string strKey);
 
-extern int32_t ParseInt32V(const UniValue& v, const std::string &strName);
-extern int64_t ParseInt64V(const UniValue& v, const std::string &strName);
-extern double ParseDoubleV(const UniValue& v, const std::string &strName);
-extern bool ParseBoolV(const UniValue& v, const std::string &strName);
-
 extern int64_t nWalletUnlockTime;
 extern CAmount AmountFromValue(const UniValue& value);
 extern UniValue ValueFromAmount(const CAmount& amount);
@@ -208,4 +203,4 @@ void StopRPC();
 std::string JSONRPCExecBatch(const UniValue& vReq);
 void RPCNotifyBlockChange(bool ibd, const CBlockIndex *);
 
-#endif // BITCOIN_RPCSERVER_H
+#endif // HRGOLD_RPCSERVER_H

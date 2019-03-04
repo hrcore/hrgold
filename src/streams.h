@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_STREAMS_H
-#define BITCOIN_STREAMS_H
+#ifndef HRGOLD_STREAMS_H
+#define HRGOLD_STREAMS_H
 
 #include "support/allocators/zeroafterfree.h"
 #include "serialize.h"
@@ -663,4 +663,4 @@ public:
     }
 };
 
-#endif // BITCOIN_STREAMS_H
+#endif // HRGOLD_STREAMS_H

@@ -1,6 +1,6 @@
 all:
-	$(MAKE) -C .. dash_test
+	$(MAKE) -C .. hrgold_test
 clean:
-	$(MAKE) -C .. dash_test_clean
+	$(MAKE) -C .. hrgold_test_clean
 check:
-	$(MAKE) -C .. dash_test_check
+	$(MAKE) -C .. hrgold_test_check

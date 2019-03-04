@@ -2,8 +2,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_QT_SPLASHSCREEN_H
-#define BITCOIN_QT_SPLASHSCREEN_H
+#ifndef HRGOLD_QT_SPLASHSCREEN_H
+#define HRGOLD_QT_SPLASHSCREEN_H
 
 #include <functional>
 #include <QSplashScreen>
@@ -59,4 +59,4 @@ private:
     std::function<void(void)> breakAction;	
 };
 
-#endif // BITCOIN_QT_SPLASHSCREEN_H
+#endif // HRGOLD_QT_SPLASHSCREEN_H

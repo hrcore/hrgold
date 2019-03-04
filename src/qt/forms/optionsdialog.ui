@@ -174,16 +174,6 @@
            </widget>
           </item>
           <item>
-           <widget class="QCheckBox" name="showPrivateSendPopups">
-            <property name="toolTip">
-             <string>Show system popups for PrivateSend mixing transactions&lt;br/&gt;just like for all other transaction types.</string>
-            </property>
-            <property name="text">
-             <string>Show popups for PrivateSend transactions</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QCheckBox" name="lowKeysWarning">
             <property name="toolTip">
              <string>Show warning dialog when PrivateSend detects that wallet has very low number of keys left.</string>
@@ -234,7 +224,7 @@
             <number>2</number>
            </property>
            <property name="maximum">
-            <number>16</number>
+            <number>8</number>
            </property>
            <property name="value">
             <number>4</number>
@@ -263,7 +253,7 @@
             <string notr="true"/>
            </property>
            <property name="text">
-            <string>Amount of Dash to keep anonymized</string>
+            <string>Amount of HrGold to keep anonymized</string>
            </property>
           </widget>
          </item>
@@ -308,7 +298,7 @@
        <item>
         <widget class="QCheckBox" name="mapPortUpnp">
          <property name="toolTip">
-          <string>Automatically open the Dash Core client port on the router. This only works when your router supports UPnP and it is enabled.</string>
+          <string>Automatically open the HrGold Core client port on the router. This only works when your router supports UPnP and it is enabled.</string>
          </property>
          <property name="text">
           <string>Map port using &amp;UPnP</string>
@@ -328,7 +318,7 @@
        <item>
         <widget class="QCheckBox" name="connectSocks">
          <property name="toolTip">
-          <string>Connect to the Dash network through a SOCKS5 proxy.</string>
+          <string>Connect to the HrGold network through a SOCKS5 proxy.</string>
          </property>
          <property name="text">
           <string>&amp;Connect through SOCKS5 proxy (default proxy):</string>
@@ -515,7 +505,7 @@
        <item>
         <widget class="QCheckBox" name="connectSocksTor">
          <property name="toolTip">
-          <string>Connect to the Dash network through a separate SOCKS5 proxy for Tor hidden services.</string>
+          <string>Connect to the HrGold network through a separate SOCKS5 proxy for Tor hidden services.</string>
          </property>
          <property name="text">
           <string>Use separate SOCKS5 proxy to reach peers via Tor hidden services:</string>
@@ -713,7 +703,7 @@
          </property>
          <property name="text">
           <string>Language missing or translation incomplete? Help contributing translations here:
-https://www.transifex.com/projects/p/dash/</string>
+https://www.transifex.com/projects/p/hrgold/</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>

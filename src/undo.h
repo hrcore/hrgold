@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_UNDO_H
-#define BITCOIN_UNDO_H
+#ifndef HRGOLD_UNDO_H
+#define HRGOLD_UNDO_H
 
 #include "compressor.h" 
 #include "consensus/consensus.h"
@@ -108,4 +108,4 @@ public:
     }
 };
 
-#endif // BITCOIN_UNDO_H
+#endif // HRGOLD_UNDO_H

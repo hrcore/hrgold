@@ -8,7 +8,7 @@ from .blockstore import BlockStore, TxStore
 from .util import p2p_port
 
 '''
-This is a tool for comparing two or more dashds to each other
+This is a tool for comparing two or more hrgoldds to each other
 using a script provided.
 
 To use, create a class that implements get_tests(), and pass it in
@@ -213,7 +213,7 @@ class TestManager(object):
             )
 
         # --> error if not requested
-        if not wait_until(blocks_requested, attempts=20*num_blocks, sleep=0.1):
+        if not wait_until(blocks_requested, attempts=20*num_blocks):
             # print [ c.cb.block_request_map for c in self.connections ]
             raise AssertionError("Not all nodes requested block")
 
